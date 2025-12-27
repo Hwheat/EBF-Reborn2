@@ -193,10 +193,10 @@
 		
 		//BOSS ABILITIES ======================================================================================================
 		"DOTA_Tooltip_ability_enemy_champion"																"Champion" 		
-		"DOTA_Tooltip_ability_enemy_champion_Description"													"Champion Units take less maximum health damage. Each active player in the game reduces the damage taken."
+		"DOTA_Tooltip_ability_enemy_champion_Description"													"Whenever an effect would deal damage based of a Champion Unit's current or maximum health, the damage is reduced. Each active player in the game reduces the damage taken."
 		
 		"DOTA_Tooltip_ability_enemy_minion"																	"Minion" 		
-		"DOTA_Tooltip_ability_enemy_minion_Description"														"Whenever a spell deals damage to another unit, a Minion gains %dmg_taken_from_aoe%%% damage reduction against that spell for %reduction_duration% seconds."
+		"DOTA_Tooltip_ability_enemy_minion_Description"														"Whenever an effect deals damage to another unit, a Minion gains %dmg_taken_from_aoe%%% damage reduction against that spell for %reduction_duration% seconds."
 
 		
 		"DOTA_Tooltip_ability_minion_frost_lich_chain_frost"												"Chain Frost"
@@ -1115,6 +1115,8 @@
 		"DOTA_Tooltip_ability_troll_warlord_fervor_Description"												"With each continuous blow on the same target, Troll gains increased attack speed for %duration% seconds. If Troll changes targets, the buff ends immediately."
 		"DOTA_Tooltip_ability_troll_warlord_fervor_attack_speed"											"ATTACK SPEED PER STACK:"
 		"DOTA_Tooltip_ability_troll_warlord_fervor_max_stacks"												"MAX STACKS:"
+		"modifier_boss_troll_warlord_fervor_attack_speed"													"Fervor - Attack Speed"
+		"modifier_boss_troll_warlord_fervor_attack_speed_Description"										"Attack speed increased by %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT%"
 		
 		"DOTA_Tooltip_ability_boss_troll_warlord_flexible_warrior"											"Flexible Warrior"
 		"DOTA_Tooltip_ability_boss_troll_warlord_flexible_warrior_Description"								"When attacking a unit within %melee_range% units of Troll Warlord, Troll Warlord gains bonus armor and magic resistance and a chance to create one Dance of Axes axe. When attacking a unit beyond that range, he has a chance to create a Hurl Axe axe instead. When not attacking any unit, Troll Warlord gains bonus movement speed. Chances are increased for each stack of Fervor."
@@ -1125,8 +1127,10 @@
 		"DOTA_Tooltip_ability_boss_troll_warlord_flexible_warrior_pacifist_bonus_movespeed"					"%BONUS MOVESPEED:"
 		
 		"DOTA_Tooltip_ability_boss_troll_warlord_battle_trance"												"Battle Trance"
-		"DOTA_Tooltip_ability_boss_troll_warlord_battle_trance_Description"									"Troll Warlord Silences himself. During this, he gains bonus attack speed, lifesteal and cannot Die."
+		"DOTA_Tooltip_ability_boss_troll_warlord_battle_trance_Description"									"Troll Warlord Strong Dispels and then Silences himself. For the duration of the Silence, he gains bonus attack speed, lifesteal and cannot Die."
 		"DOTA_Tooltip_ability_boss_troll_warlord_battle_trance_crit_damage"           	         		    "DURATION:"
+		"DOTA_Tooltip_modifier_boss_troll_warlord_battle_trance"											"Battle Trance - Trance"
+		"DOTA_Tooltip_modifier_boss_troll_warlord_battle_trance_Description"								"Unable to die."
 		
 		"DOTA_Tooltip_ability_boss_ursine_guardian_earthshock"												"Earthshock"
 		"DOTA_Tooltip_ability_boss_ursine_guardian_earthshock_Description"									"Ursine Guardian leaps forward %hop_distance% units and slams the earth, causing a powerful shock to damage and slow all enemy units in a nearby area for %abilityduration% seconds."
@@ -1707,6 +1711,12 @@
 		// Generic
 		"DOTA_Tooltip_modifier_neutrals_ancestors_rage"                                                     "Ancestor's Vengeance"
 		"DOTA_Tooltip_modifier_neutrals_ancestors_rage_Description"                                         "This neutral is imbued with ancestral vigor, taking %dMODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE%%% less damage and dealing %dMODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE%%% more damage from all sources. Start a new round to remove this buff."
+		
+		"DOTA_TOOLTIP_modifier_keyword_debuff_burn"															"Burn"
+		"DOTA_TOOLTIP_modifier_keyword_debuff_burn_Description"												"Taking %dMODIFIER_PROPERTY_TOOLTIP% Magical base damage every 0.25 seconds (calculated before Hero Power and Spell Amplification."
+		
+		"DOTA_TOOLTIP_modifier_keyword_debuff_poison"														"Poison"
+		"DOTA_TOOLTIP_modifier_keyword_debuff_poison_Description"											"Taking %dMODIFIER_PROPERTY_TOOLTIP% Physical base damage every 3 seconds (calculated before Hero Power and Spell Amplification."
 
 		// HERO ABILITIES ======================================================================================================
 		// Abaddon
@@ -3055,7 +3065,57 @@
 		"DOTA_Tooltip_modifier_hoodwink_sharpshooter_ebf"                                                   "Sharpshooter - Windup"
 		"DOTA_Tooltip_modifier_hoodwink_sharpshooter_ebf_debuff"                                            "Sharpshooter - Debuff"
 		"DOTA_Tooltip_modifier_hoodwink_sharpshooter_ebf_debuff_Description"                                "Passives disabled, movement slowed by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+		
+		// Huskar
+		"DOTA_Tooltip_Facet_huskar_cauterizer"																"Cauterizer"
+		"DOTA_Tooltip_Facet_huskar_cauterizer_Description"													"Huskar embraces the fire within, eager to share it with his foes as a powerful damage dealer" 
+		"DOTA_Tooltip_Facet_huskar_fire_hardened"															"Fire-Hardened"
+		"DOTA_Tooltip_Facet_huskar_fire_hardened_Description"												"Huskar focuses the flames inward, using them to survive what would kill others."
+		
+		"DOTA_Tooltip_ability_huskar_blood_magic"															"Fire Magic"
+		"DOTA_Tooltip_ability_huskar_blood_magic_Description"												"Huskar can cast his abilities even without sufficient Rage, Burning himself for %rage_to_burn%%% of the Rage cost after Casting.\nAdditionally, Huskar takes %burn_resist%%% less damage from Burn."		
+		"DOTA_Tooltip_ability_huskar_blood_magic_Facet_huskar_cauterizer"									"Huskar gains spell amplification for each Burn applied to him."		
+		"DOTA_Tooltip_ability_huskar_blood_magic_Facet_huskar_fire_hardened"								"Huskar gains restoration amplification for each Burn applied to him."		
+		"DOTA_Tooltip_ability_huskar_blood_magic_burn_spell_amp"											"%SPELL AMPLIFICATION/BURN:"		
+		"DOTA_Tooltip_ability_huskar_blood_magic_burn_restore_amp"											"%RESTORE AMPLIFICATION/BURN:"		
+		"DOTA_Tooltip_ability_huskar_blood_magic_Note0"														"Burn stacks additively and deals 50 Magical damage every 0.25 seconds, each time it deals damage, 20% of stacks are lost. Damage dealt is increased by Hero Power and Spell Amplification."
+		
+		"DOTA_Tooltip_ability_huskar_inner_fire_Description"												"In a fiery rage, consumes all of Huskar's Burn, Knocking Back, Slowing and Silencing all enemy units in the radius and dealing damage to them."
+		"DOTA_Tooltip_ability_huskar_inner_fire_Facet_huskar_cauterizer"									"Damage is increased for each Burn removed from Huskar."
+		"DOTA_Tooltip_ability_huskar_inner_fire_Facet_huskar_fire_hardened"									"Heals Huskar for %damage_to_heal%%% the damage values, healing is increased for each Burn removed from Huskar."
+		"DOTA_Tooltip_ability_huskar_inner_fire_bonus_burn_damage"											"BONUS DAMAGE/BURN REMOVED:"
+		"DOTA_Tooltip_ability_huskar_inner_fire_bonus_burn_heal"											"BONUS HEAL/BURN REMOVED:"
+		
+		"DOTA_Tooltip_ability_huskar_burning_spear_Description"												"Huskar sets his spears aflame, Burning himself and his attack target."
+		"DOTA_Tooltip_ability_huskar_burning_spear_Facet_huskar_cauterizer"									"Burn applied to Huskar and his target increased."
+		"DOTA_Tooltip_ability_huskar_burning_spear_Facet_huskar_fire_hardened"								"Adds the following trigger to Burning Spear:<br><i>Retribution —</i>Huskar deals damage for each Burn applied to him to all units with %retribution_radius% radius each time he is hit. Has a %retribution_cd% second internal cooldown."
+		"DOTA_Tooltip_ability_huskar_burning_spear_Note0"													"Burn stacks additively and deals 50 Magical damage every 0.25 seconds, each time it deals damage, 20% of stacks are lost. Damage dealt is increased by Hero Power and Spell Amplification."
+		"DOTA_Tooltip_ability_huskar_burning_spear_Note1"													""
+		"DOTA_Tooltip_ability_huskar_burning_spear_Note2"													""
+		"DOTA_Tooltip_ability_huskar_burning_spear_burn_damage"												"BURN APPLIED:"
+		"DOTA_Tooltip_ability_huskar_burning_spear_retribution_damage"										"RETRIBUTION DAMAGE/BURN:"
+		
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_Description"											"Huskar cannot die to Burn and his injuries feed his power, giving increased attack speed, magic resistance and health regen based on missing health. Health regen is a percentage of your strength."
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_Facet_huskar_cauterizer"								"Max magic resistance increased and Burn cannot reduce Huskar to less than his maximum health threshold."
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_Facet_huskar_fire_hardened"							"Berserker's Blood can be activated. Dispels Huskar, and gives him health regeneration for each Burn on him for %active_duration% seconds.\n\nDISPEL TYPE: Basic Dispel"
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_Note0"												"Bonuses are provided linearly, no bonus at Full HP and full bonus at strictly less than %hp_threshold_max%%% HP."
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_maximum_attack_speed"     							"MAX ATTACK SPEED:"
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_maximum_health_regen"									"%MAX STR REGEN:"
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_maximum_magic_resist"									"%MAX MAGIC RESIST:"
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_hp_threshold_max" 									"%HP FOR MAX BONUS:"
+		"DOTA_Tooltip_ability_huskar_berserkers_blood_burn_health_regen"									"HEALTH REGEN/BURN:"
+		"DOTA_TOOLTIP_modifier_huskar_berserkers_blood_passive"												"Berserker's Blood - Passive"
+		"DOTA_TOOLTIP_modifier_huskar_berserkers_blood_passive_Description"									"Gaining %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% attack speed, %fMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT% health regeneration and %fMODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS%%% magic resistance."
+		"DOTA_TOOLTIP_modifier_huskar_berserkers_blood_fire_hardened"										"Berserker's Blood - Fire-Hardened"
+		"DOTA_TOOLTIP_modifier_huskar_berserkers_blood_fire_hardened_Description"							"Gaining %dMODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT% health regeneration."
 
+		"DOTA_Tooltip_ability_huskar_life_break"															"Life Break"
+		"DOTA_Tooltip_ability_huskar_life_break_Description"												"Huskar draws upon his health to break an enemy's life, leaping at a target to shatter a percentage of that hero's current health and slow both their movement and attack speed. Huskar then shares his Burn with the target. While leaping, Huskar is Debuff Immune and has 60%% increased magic resistance.\n\nDISPEL TYPE: Basic Dispel"
+		"DOTA_Tooltip_ability_huskar_life_break_Facet_huskar_cauterizer"									"Units affected by Life Break's slow explode on death, spreading their remaining burn to all units within %deathburst_radius% units."
+		"DOTA_Tooltip_ability_huskar_life_break_Facet_huskar_fire_hardened"									"Huskar becomes immune to Burn damage and Burn does not tick down for the Debuff Immunity duration. The target is taunted to Huskar for the slow duration."
+		
+		"DOTA_Tooltip_ability_special_bonus_unique_huskar_inner_fire_damage"								"+{s:bonus_damage}% Inner Fire Damage"
+		
 		// Juggernaut
 		"DOTA_Tooltip_Facet_juggernaut_sohei"																"Sōhei"
 		"DOTA_Tooltip_Facet_juggernaut_sohei_Description"													"The Juggernaut walks the path of the Sōhei, becoming a disciplined damage dealer." 
@@ -3063,7 +3123,7 @@
 		"DOTA_Tooltip_Facet_juggernaut_ronin_Description"													"The Juggernaut walks the path of the Rōnin, becoming an agile tank."
 
 		"DOTA_Tooltip_ability_juggernaut_duelist"															"Duelist"
-		"DOTA_Tooltip_ability_juggernaut_duelist_Description"												"The Juggernaut's chosen path empowers himself or weakens those around him."
+		"DOTA_Tooltip_ability_juggernaut_duelist_Description"												"Outgoing damage instances sourced to Juggernaut are amplified on enemy units facing the Juggernaut."
 		"DOTA_Tooltip_ability_juggernaut_duelist_Facet_juggernaut_sohei"									"The Juggernaut attacks like the wind, quickening his cooldowns by %cooldown_reduction%%% while attacking. This does not apply during Omnislash."
 		"DOTA_Tooltip_ability_juggernaut_duelist_cooldown_reduction"										"%COOLDOWN REDUCTION:"
 		"DOTA_Tooltip_ability_juggernaut_duelist_Facet_juggernaut_ronin"									"The Juggernaut floats like a butterfly, making attackers miss %miss_chance%%% of their attacks against him. Miss chance is doubled for units attacked by the Juggernaut in the last 5 seconds." 
@@ -4554,9 +4614,59 @@
 		"DOTA_Tooltip_modifier_undying_decay_str_Description"                                               "Gaining %dMODIFIER_PROPERTY_EXTRA_STRENGTH_BONUS% strength."
 		
 		// Venomancer
-		"DOTA_Tooltip_ability_venomancer_venomous_gale_shard_description"									"Increases travel range, and when Venomous Gale impacts enemy Heroes, it creates a Plague Ward around them."
+		"DOTA_Tooltip_Facet_venomancer_toxicologist"														"Toxicologist"
+		"DOTA_Tooltip_Facet_venomancer_toxicologist_Description"											"Venomancer diversifies his toxins, becoming a healing tactician."
+		"DOTA_Tooltip_Facet_venomancer_plague_bringer"														"Plague Bringer"		
+		"DOTA_Tooltip_Facet_venomancer_plague_bringer_Description"											"Venomancer strengthens his mutagenic poisons, becoming a summoning assassin."
+		
+		"DOTA_Tooltip_ability_venomancer_sepsis"															"Septic Shock"
+		"DOTA_Tooltip_ability_venomancer_sepsis_Description"												"Venomancer's attacks deal extra damage based on how much Poison the attack target has. Extra damage is dealt as magical attack damage."
+		"DOTA_Tooltip_ability_venomancer_sepsis_Facet_venomancer_toxicologist"								"Every %hits_to_proc_bonus%th attack, Venomancer Lifesteals for %proc_lifesteal%%% of the damage dealt, sharing it with all allies within %proc_lifesteal_radius% radius."
+		"DOTA_Tooltip_ability_venomancer_sepsis_Facet_venomancer_plague_bringer"							"Every %hits_to_proc_bonus%th attack, Septic Shock's damage is increased to %proc_bonus_damage%x their Poison."
+		"DOTA_Tooltip_ability_venomancer_sepsis_bonus_poison_damage"										"BONUS DAMAGE PER POISON:"
+		
+		"DOTA_Tooltip_ability_venomancer_venomous_gale_Description"											"Launches a ball of venom in a line, Damaging and Poisoning enemy units hit, as well as Slowing them for the duration. The slow decrements over time."
+		"DOTA_Tooltip_ability_venomancer_venomous_gale_Facet_venomancer_toxicologist"						"When Venomous Gale ends for any reason, the affected unit takes %explosion_damage%%% of their Poison damage immediately and are stunned."
+		"DOTA_Tooltip_ability_venomancer_venomous_gale_Facet_venomancer_plague_bringer"						"The first time an enemy Hero is hit by Venomous Gale, create Plague Wards."
+		"DOTA_Tooltip_ability_venomancer_venomous_gale_Note0"												"Poison stacks additively and deals 50 Physical damage every 3 seconds and has no duration. Stacks are lost on Dispel or when the unit is Healed. Damage dealt is increased by Hero Power and Spell Amplification."
+		"DOTA_Tooltip_ability_venomancer_venomous_gale_Note1"												""
+		"DOTA_Tooltip_ability_venomancer_venomous_gale_wards_to_create"										"WARDS CREATED:"
 		"DOTA_Tooltip_modifier_venomancer_venomous_gale_cancer"												"Venomous Gale - Debuff"
-		"DOTA_Tooltip_modifier_venomancer_venomous_gale_cancer_Description"									"Periodically taking damage."
+		"DOTA_Tooltip_modifier_venomancer_venomous_gale_cancer_Description"									"Slowed by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+		
+		"DOTA_Tooltip_ability_venomancer_poison_sting"														"Poison Sting"
+		"DOTA_Tooltip_ability_venomancer_poison_sting_Description"											"Venomancer and his summoned units' attacks debuff the enemy, Slowing them and progressively Poisoning them every second. Applied duration is reduced by %summon_power%%% for summoned units."
+		"DOTA_Tooltip_ability_venomancer_poison_sting_Facet_venomancer_toxicologist"						"Poison Sting now also slows attack speed by an amount equal to the movement speed slow, both of which are increased by an amount equal to their Poison."
+		"DOTA_Tooltip_ability_venomancer_poison_sting_Facet_venomancer_plague_bringer"						"Summoned units apply full duration and if an enemy Champion dies while affected by Poison Sting, all of Venomancer's abilities are Refreshed."
+		"DOTA_Tooltip_ability_venomancer_poison_sting_Note0"												"Poison stacks additively and deals 50 Physical damage every 3 seconds and has no duration. Stacks are lost on Dispel or when the unit is Healed. Damage dealt is increased by Hero Power and Spell Amplification."
+		"DOTA_Tooltip_ability_venomancer_poison_sting_duration"												"DURATION:"
+		"DOTA_Tooltip_ability_venomancer_poison_sting_movement_speed"										"%SLOW:"
+		"DOTA_Tooltip_modifier_venomancer_poison_sting_cancer"												"Poison Sting - Debuff"
+		"DOTA_Tooltip_modifier_venomancer_poison_sting_cancer_Description"									"Slowed by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%% and getting Poisoned."
+		
+		"DOTA_Tooltip_ability_venomancer_plague_ward_Description"											"Summons a plague ward to attack enemy units and structures. The ward is immune to magic."
+		"DOTA_Tooltip_ability_venomancer_plague_ward_Facet_venomancer_toxicologist"							"Plague Ward can be cast on allies, granting barrier equal to Plague Ward's health. Plague Ward is Invulnerable while attached to an allied unit, only dying when the barrier gained from Plague Ward is lost."
+		"DOTA_Tooltip_ability_venomancer_plague_ward_Facet_venomancer_plague_bringer"						"Plague Wards explode on death, dealing %explodes_on_death%%% of their maximum health as physical damage."
+		"DOTA_Tooltip_ability_venomancer_plague_ward_duration"												"DURATION:"
+		"DOTA_Tooltip_ability_venomancer_plague_ward_ward_hp_tooltip"										"WARD HP:"
+		"DOTA_Tooltip_ability_venomancer_plague_ward_ward_damage_tooltip"									"WARD DAMAGE:"
+		"DOTA_Tooltip_ability_venomancer_plague_ward_explosion_radius"										"DEATH EXPLOSION RADIUS:"
+		
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_Description"										"Infects an enemy with a deadly plague that does an initial burst of damage and Poison. The plague Slows and Poisons the target increasingly, while Slowing nearby enemies. When the target dies or the debuff expires the target takes %poison_damage_on_expire%%% of its Poison damage immediately and all nearby enemies are infected with the plague, up to a maximum of %total_spreads% times."
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_Facet_venomancer_toxicologist"						"When Noxious Plague ends, all allies in the radius are healed for %healing_on_expire%%% of the damage dealt to the target."
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_Facet_venomancer_plague_bringer"					"Noxious Plague can spread %total_spreads% times."
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_debuff_duration"									"DURATION:"
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_impact_damage"										"INITIAL DAMAGE:"
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_poison_per_sec"										"POISON APPLIED/SEC:"
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_debuff_radius"										"DEBUFF RADIUS:"
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_movement_slow_max"									"%AURA SLOW:"
+		"DOTA_Tooltip_ability_venomancer_noxious_plague_projectile_speed"									"PROJECTILE SPEED:"
+		"DOTA_Tooltip_modifier_venomancer_noxious_plague_cancer"											"Noxious Plague - Debuff"
+		"DOTA_Tooltip_modifier_venomancer_noxious_plague_cancer_Description"								"Getting Poisoned. On expire, will spread %dMODIFIER_PROPERTY_TOOLTIP% times."
+		"DOTA_Tooltip_modifier_venomancer_noxious_plague_aura_slow"											"Noxious Plague - Slow"
+		"DOTA_Tooltip_modifier_venomancer_noxious_plague_aura_slow_Description"								"Slowed."
+		
+		"DOTA_Tooltip_ability_special_bonus_unique_venomancer_poison_impact"								"+{s:bonus_bonus_poison_strike_damage} Venomous Gale Strike Damager Per Poison"
 		
 		//Vengeful spirit
 		"DOTA_Tooltip_ability_vengefulspirit_retribution"													"Retribution"
@@ -4707,6 +4817,43 @@
 		"DOTA_Tooltip_ability_winter_wyvern_eldwurm_scholar_Facet_winter_wyvern_blizzardborne"				"Additionally grants %debuff_duration%%% Debuff Duration Amplification per %per_int% Intelligence."
 		"DOTA_Tooltip_ability_winter_wyvern_eldwurm_scholar_Facet_winter_wyvern_avalanchian"				"Grants %spell_amp%%% Spell Amplification per %per_int% Intelligence instead."
 		
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_burn_Description"										"Winter Wyvern soars upon an arctic wind, granting her unobstructed movement and allowing her to exhale a blistering chill into each attack. While soaring, her attacks travel further and faster, and slow enemies with a magical freeze that deals damage every second, reducing with their current health."
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_burn_Facet_winter_wyvern_glacierheart"					"Winter Wyvern releases a healing aura during the duration that heals allies based on their missing hp every second."
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_burn_Facet_winter_wyvern_blizzardborne"					"Movement slow drastically increased and also slows attack speed."
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_burn_Facet_winter_wyvern_avalanchian"					"Becomes a toggleable ability, consuming mana every second. Debuff can now be refreshed."
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_burn_heal_radius"										"HEALING AURA RADIUS:"
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_burn_heal_pct"											"%MISSING HEALTH RESTORATION:"
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_burn_attack_slow"										"ATTACK SLOW:"
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_base_damage"												"DAMAGE PER SECOND:"
+		"DOTA_Tooltip_ability_winter_wyvern_arctic_burn_mana_per_second"									"TOGGLED MANA COST/SEC:"
+		
+		"DOTA_Tooltip_ability_winter_wyvern_splinter_blast_Description"										"Launches a ball of brittle ice toward a unit. The ice shatters on impact, leaving the primary target completely unaffected, while hurling damaging splinters into nearby enemies in a %split_radius% base radius. Enemies struck by these splinters are Slowed."
+		"DOTA_Tooltip_ability_winter_wyvern_splinter_blast_Facet_winter_wyvern_glacierheart"				"When an ally is targeted by Splinter Blast's primary projectile, you Replicate a %cold_embrace_duration% second duration Cold Embrace targeting them."
+		"DOTA_Tooltip_ability_winter_wyvern_splinter_blast_Facet_winter_wyvern_blizzardborne"				"Radius increased. Units hit by Splinter Blast's secondary projectile also take additional damage when damaged while debuffed, %bonus_damage_proc_cd% second(s) internal cooldown."
+		"DOTA_Tooltip_ability_winter_wyvern_splinter_blast_Facet_winter_wyvern_avalanchian"					"Splinter Blast's primary target takes %primary_target_dmg%%% of the secondary projectile's damage. If a unit dies while under Splinter Blast's debuff, they release secondary projectiles."
+		"DOTA_Tooltip_ability_winter_wyvern_splinter_blast_bonus_damage_proc"								"FROST BONUS DAMAGE:"
+		
+		"DOTA_Tooltip_ability_winter_wyvern_cold_embrace_Facet_winter_wyvern_glacierheart"					"Allies affected by Cold Embrace are not stunned. Refreshing the modifier increases the duration."
+		"DOTA_Tooltip_ability_winter_wyvern_cold_embrace_Facet_winter_wyvern_blizzardborne"					"Can target enemy units, lasting %enemy_duration% seconds, does not heal them, instead deals Pure damage equal to %damage%%% the healing values. Enemies do not become immune to physical damage."
+		"DOTA_Tooltip_ability_winter_wyvern_cold_embrace_Facet_winter_wyvern_avalanchian"					"Releases a Splinter Blast when the buff ends."
+		"DOTA_Tooltip_ability_winter_wyvern_cold_embrace_duration"											"DURATION:"
+		
+		"DOTA_Tooltip_ability_winter_wyvern_winters_curse_Description"										"Winter Wyvern dispels then freezes an enemy in place while striking those nearby with a maddening curse which causes them to attack their frozen ally with increased attack speed. The frozen ally and those cursed to attack their ally take %damage_reduction%%% less damage from their enemies with the exception of damage from Winter Wyvern or her controlled units, who gain part of the attack speed and deal additional spell damage."
+		"DOTA_Tooltip_ability_winter_wyvern_winters_curse_Facet_winter_wyvern_glacierheart"					"Wyvern shares her spell damage and attack speed bonuses with all allied units."
+		"DOTA_Tooltip_ability_winter_wyvern_winters_curse_ebf_changes"										"Does not end early."
+		"DOTA_Tooltip_ability_winter_wyvern_winters_curse_Facet_winter_wyvern_blizzardborne"				"Winter's Curse base duration is increased and increases even further for each Taunted unit. Minions increase the duration less."
+		"DOTA_Tooltip_ability_winter_wyvern_winters_curse_Facet_winter_wyvern_avalanchian"					"Winter Wyvern's attack speed spell damage bonuses increased."
+		"DOTA_Tooltip_ability_winter_wyvern_winters_curse_damage_amplification"								"%WYVERN SPELL DAMAGE:"
+		"DOTA_Tooltip_ability_winter_wyvern_winters_curse_attack_speed_wyvern"								"WYVERN ATTACK SPEED:"
+		"DOTA_Tooltip_modifier_winter_wyvern_winters_curse_freeze"											"Winter's Curse - Cursed"
+		"DOTA_Tooltip_modifier_winter_wyvern_winters_curse_freeze_Description"								"Frozen and being attacked by allies."
+		"DOTA_Tooltip_modifier_winter_wyvern_winters_curse_taunt"											"Winter's Curse - Maddened"
+		"DOTA_Tooltip_modifier_winter_wyvern_winters_curse_taunt_Description"								"Attacking your cursed ally."
+		"DOTA_Tooltip_modifier_winter_wyvern_winters_curse_attack_speed"									"Winter's Curse - Quickening"
+		"DOTA_Tooltip_modifier_winter_wyvern_winters_curse_attack_speed_Description"						"Attacking with %dMODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT% increased speed."
+		
+		"DOTA_Tooltip_ability_special_bonus_unique_winter_wyvern_arctic_burn_base_damage"					"+{s:bonus_base_damage}% Arctic Burn Base Damage"
+		"DOTA_Tooltip_ability_special_bonus_unique_winter_wyvern_3"											"+{s:bonus_bonus_attack_speed}/{s:bonus_attack_speed_wyvern} Winter's Curse Attack Speed "
 		
 		//Witch Doctor
 		"DOTA_Tooltip_ability_witch_doctor_maledict_Description"											"Curses all enemy Heroes in a small area, causing them to take a set amount of damage each second, as well as bursts of damage every 4 seconds based on how much health they have lost since the last burst of damage or since the curse began."
@@ -5173,7 +5320,7 @@
 		"DOTA_Tooltip_ability_special_bonus_unique_hoodwink_bushwhack_damage"                               "+{s:bonus_total_damage}% Bushwhack Damage"
 		"DOTA_Tooltip_ability_special_bonus_unique_hoodwink_sharpshooter_damage"							"+{s:bonus_max_damage}% Sharpshooter Max Damage"
 		"DOTA_Tooltip_ability_special_bonus_unique_huskar"													"+{s:bonus_tooltip_health_damage}% Life Break Damage"
-		"DOTA_Tooltip_ability_special_bonus_unique_huskar_2"												"+{s:bonus_burn_damage} Burning Spears DPS"
+		"DOTA_Tooltip_ability_special_bonus_unique_huskar_2"												"+{s:bonus_burn_damage} Burning Spears Burn Applied"
 		"DOTA_Tooltip_ability_special_bonus_unique_invoker_5"												"+{s:bonus_bonus_attack_speed}% Alacrity Damage/Speed"
 		"DOTA_Tooltip_ability_special_bonus_unique_invoker_ice_wall_dps"									"+{s:bonus_damage_per_second}% Ice Wall DPS"
 		"DOTA_Tooltip_ability_special_bonus_unique_jakiro_7"                                                "+{s:bonus_damage}% Macropyre Damage"

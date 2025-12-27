@@ -1,68 +1,49 @@
 venomancer_venomous_gale = class({})
 
 function venomancer_venomous_gale:OnSpellStart()
-	self.speed = self:GetSpecialValueFor( "speed" )
-	self.width = self:GetSpecialValueFor( "radius" )
-	self.distance = self:GetTrueCastRange()
+	local caster = self:GetCaster()
+	local target = self:GetCursorTarget() or self:GetCursorPosition()
+	local speed = self:GetSpecialValueFor( "speed" )
+	local width = self:GetSpecialValueFor( "radius" )
+	local distance = self:GetTrueCastRange()
 
 	EmitSoundOn( "Hero_Venomancer.VenomousGale", self:GetCaster() )
 
-	local vPos = nil
-	if self:GetCursorTarget() then
-		vPos = self:GetCursorTarget():GetOrigin()
-	else
-		vPos = self:GetCursorPosition()
-	end
-
-	local vDirection = vPos - self:GetCaster():GetOrigin()
-	vDirection.z = 0.0
-	vDirection = vDirection:Normalized()
-	
-	local info = {
-		EffectName = "particles/units/heroes/hero_venomancer/venomancer_venomous_gale.vpcf",
-		Ability = self,
-		vSpawnOrigin = self:GetCaster():GetOrigin(), 
-		fStartRadius = self.width,
-		fEndRadius = self.width,
-		vVelocity = vDirection * self.speed,
-		fDistance = self.distance,
-		Source = self:GetCaster(),
-		iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-		iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-	}
-
-	ProjectileManager:CreateLinearProjectile( info )
+	local direction = CalculateDirection( target, caster )
+	self:FireLinearProjectile( "particles/units/heroes/hero_venomancer/venomancer_venomous_gale.vpcf", direction * speed, distance )
 end
 
 --------------------------------------------------------------------------------
 
-function venomancer_venomous_gale:OnProjectileHit( hTarget, vLocation )
-	if hTarget ~= nil and ( not hTarget:IsMagicImmune() ) and ( not hTarget:IsInvulnerable() ) and not hTarget:TriggerSpellAbsorb( self ) then
+function venomancer_venomous_gale:OnProjectileHit( target, position )
+	if target then
 		local caster = self:GetCaster()
-		hTarget:AddNewModifier(self:GetCaster(), self, "modifier_venomancer_venomous_gale_cancer", {duration = self:GetSpecialValueFor("duration")})
-		EmitSoundOn( "Hero_Venomancer.VenomousGaleImpact", hTarget )
-		
-		local vDirection = vLocation - self:GetCaster():GetOrigin()
-		vDirection.z = 0.0
-		vDirection = vDirection:Normalized()
+		target:RemoveModifierByName("modifier_venomancer_venomous_gale_cancer")
+		target:AddNewModifier(self:GetCaster(), self, "modifier_venomancer_venomous_gale_cancer", {duration = self:GetSpecialValueFor("duration")})
+		target:AddPoison(caster, self:GetSpecialValueFor("tick_damage") )
+		EmitSoundOn( "Hero_Venomancer.VenomousGaleImpact", target )
 		
 		local damage = self:GetSpecialValueFor("strike_damage")
-		if caster:IsRealHero( ) and self:GetSpecialValueFor("create_wards") > 0 and hTarget:IsConsideredHero() then
+		local bonusPoisonDamage = self:GetSpecialValueFor("bonus_poison_strike_damage")
+		print( caster:IsRealHero( ), self:GetSpecialValueFor("wards_to_create"), target:IsConsideredHero() )
+		if caster:IsRealHero( ) and self:GetSpecialValueFor("wards_to_create") > 0 and target:IsConsideredHero() then
+			print( "first check ok" )
 			local ward = caster:FindAbilityByName("venomancer_plague_ward")
 			if ward and ward:IsTrained() then
-				for i = 1, self:GetSpecialValueFor("create_wards") do
-					local position  = hTarget:GetAbsOrigin() + RandomVector(250)
+				print( "found ward" )
+				for i = 1, self:GetSpecialValueFor("wards_to_create") do
+					local position  = target:GetAbsOrigin() + RandomVector(250)
 					caster:SetCursorPosition( position )
 					ward:OnSpellStart( )
 				end
 			end
 		end
 		
-		local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_venomancer/venomancer_venomous_gale_impact.vpcf", PATTACH_ABSORIGIN_FOLLOW, hTarget )
-		ParticleManager:SetParticleControlForward( nFXIndex, 1, vDirection )
+		local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_venomancer/venomancer_venomous_gale_impact.vpcf", PATTACH_ABSORIGIN_FOLLOW, target )
+		ParticleManager:SetParticleControlForward( nFXIndex, 1, CalculateDirection( target, position ) )
 		ParticleManager:ReleaseParticleIndex( nFXIndex )
 		
-		self:DealDamage( caster, hTarget, damage )
+		self:DealDamage( caster, target, damage + bonusPoisonDamage * target:GetPoison(), {damage_type = DAMAGE_TYPE_MAGICAL} )
 	end
 	return false
 end
@@ -76,36 +57,26 @@ function modifier_venomancer_venomous_gale_cancer:OnCreated()
 end
 
 function modifier_venomancer_venomous_gale_cancer:OnRefresh()
-	self.tick = self:GetSpecialValueFor("tick_interval")
-	self.movespeed = self:GetSpecialValueFor("movement_slow")
+	self.movespeed = -self:GetSpecialValueFor("movement_slow")
+	self.tick = 0.5
 	self.msReduction = self.tick * self.movespeed / self:GetRemainingTime()
-	self.tick_damage = self:GetSpecialValueFor("tick_damage")
 end
 
 function modifier_venomancer_venomous_gale_cancer:OnDestroy()
 	if IsServer() then
 		local caster = self:GetCaster()
 		local parent = self:GetParent()
-		if caster:IsRealHero( ) and caster:HasScepter( ) and parent:IsConsideredHero() then
-			self.nova = self:GetCaster():FindAbilityByName("venomancer_poison_nova")
-			if self.nova then
-				self.nova:PoisonNova( parent )
-			end
-		end
-		if caster:HasShard() then
-			self:GetAbility():DealDamage( caster, parent, self:GetSpecialValueFor("explosion_damage") )
-			self:GetAbility():Stun( parent, self:GetSpecialValueFor("explosion_stun_duration") )
+		local ability = self:GetAbility()
+		local damage = self:GetSpecialValueFor("explosion_damage") / 100
+		if damage > 0 then
+			ability:DealDamage( caster, parent, parent:GetPoisonDamage() * damage, {damage_type = DAMAGE_TYPE_MAGICAL}, OVERHEAD_ALERT_BONUS_POISON_DAMAGE )
+			ability:Stun( parent, self:GetSpecialValueFor("explosion_stun_duration") )
 		end
 	end
 end
 
 function modifier_venomancer_venomous_gale_cancer:OnIntervalThink()
 	self.movespeed = math.min( self.movespeed - self.msReduction, 0 )
-	if IsServer() then 
-		local caster = self:GetCaster()
-		local damage = self.tick_damage
-		self:GetAbility():DealDamage( caster, self:GetParent(), damage )
-	end
 end
 
 function modifier_venomancer_venomous_gale_cancer:DeclareFunctions()
@@ -117,10 +88,6 @@ end
 
 function modifier_venomancer_venomous_gale_cancer:GetModifierMoveSpeedBonus_Percentage()
 	return self.movespeed
-end
-
-function modifier_venomancer_venomous_gale_cancer:GetAttributes()
-	return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
 function modifier_venomancer_venomous_gale_cancer:GetEffectName()

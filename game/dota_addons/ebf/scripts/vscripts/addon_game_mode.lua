@@ -56,6 +56,8 @@ function Precache( context )
 	PrecacheResource( "particle", "particles/units/heroes/hero_ursa/ursa_claw_right.vpcf", context )
 	PrecacheResource( "particle", "particles/econ/events/spring_2021/hero_levelup_spring_2021.vpcf", context )
 	PrecacheResource( "particle", "particles/boss/minion_powerup_overhead.vpcf", context )
+	PrecacheResource( "particle", "particles/units/heroes/hero_huskar/huskar_burning_spear_debuff.vpcf", context )
+	PrecacheResource( "particle", "particles/units/heroes/hero_venomancer/venomancer_poison_debuff.vpcf", context )
 	
 	PrecacheResource( "particle", "particles/ui_mouseactions/range_finder_cone.vpcf", context )
 	PrecacheResource( "particle", "particles/boss/ancestral_rage_overhead_overhead.vpcf", context )
@@ -628,8 +630,6 @@ IGNORE_SPELL_AMP_KV = {
 	["enigma_midnight_pulse"] = {["damage_percent"] = true},
 	["enigma_black_hole"] = {["scepter_pct_damage"] = true},
 	["obsidian_destroyer_arcane_orb"] = {["mana_pool_damage_pct"] = true},
-	["huskar_life_break"] = {["health_cost_percent"] = true, ["health_damage"] = true, ["tooltip_health_cost_percent"] = true, ["tooltip_health_damage"] = true, },
-	["huskar_burning_spear"] = {["burn_damage_max_pct"] = true },
 	["winter_wyvern_arctic_burn"] = {["percent_damage"] = true},
 	["elder_titan_earth_splitter"] = {["damage_pct"] = true},
 	["item_orchid"] = {["silence_damage_percent"] = true},
@@ -651,8 +651,6 @@ MAX_HP_DAMAGE = {
 	["venomancer_noxious_plague"] = {["health_damage"] = 100},
 	["enigma_midnight_pulse"] = {["damage_percent"] = 100},
 	["enigma_black_hole"] = {["scepter_pct_damage"] = 100},
-	["huskar_life_break"] = {["health_damage"] = -1},
-	["huskar_burning_spear"] = {["burn_damage_max_pct"] = 100 },
 	["winter_wyvern_arctic_burn"] = {["percent_damage"] = -100},
 	["elder_titan_earth_splitter"] = {["damage_pct"] = 100},
 	["ringmaster_impalement"] = {["bleed_health_pct"] = 100},
@@ -1044,6 +1042,14 @@ function CHoldoutGameMode:_SetupGameConfiguration()
 	local endKV = MergeTables( mainKV, modeKV ) or {} -- Handle the case where there is not keyvalues file
 	
 	GameRules.BossKV = LoadKeyValues( "scripts/npc/units/npc_boss_units.txt" )
+	
+	local reworkedHeroList = {}
+	for heroName, heroData in pairs( LoadKeyValues( "scripts/npc/npc_heroes_custom.txt" ) ) do
+		if heroData.FacetsReworked then
+			reworkedHeroList[heroName] = heroData.FacetsReworked
+		end
+	end
+	CustomNetTables:SetTableValue("game_state", "reworked_heroes", reworkedHeroList)
 	
 	local availableItems = LoadKeyValues( "scripts/shops.txt" )
 	GameRules.ShopKV = {}
@@ -1641,7 +1647,7 @@ function CHoldoutGameMode:OnThink()
 									hero._hasDoneActionsThisRound = false
 									if PlayerResource._internalMMRFollowupTable[nPlayerID] % 5 == 0 then
 										local difficultyMultiplier = 1+(1 / 3)*(GameRules.gameDifficulty-1)
-										local winMMR = (math.floor( PlayerResource._internalMMRFollowupTable[nPlayerID] /5 ) * 5) * difficultyMultiplier
+										local winMMR = math.floor( (math.floor( PlayerResource._internalMMRFollowupTable[nPlayerID] /5 ) * 5) * difficultyMultiplier )
 										local mmrTable = CustomNetTables:GetTableValue("mmr", tostring( nPlayerID ) ) or {}
 										mmrTable.win = winMMR
 										CustomNetTables:SetTableValue("mmr", tostring( nPlayerID ), mmrTable)
